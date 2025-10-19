@@ -21,8 +21,8 @@ int solve_case() {
         }
     }
 
-    int dr[] = {-1, 1, 0, 0};
-    int dc[] = {0, 0, -1, 1};
+    int dr[] = {-1, 0, 1, 0};
+    int dc[] = {0, 1, 0, -1};
 
     deque<tuple<int, int, int, int, int>> dq;
 
