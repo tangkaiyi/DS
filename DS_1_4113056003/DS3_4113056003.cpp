@@ -16,9 +16,9 @@ void slove_case(){
         for (int j = 0; j <= i; j++) {
             string subs = s.substr(j, i - j + 1);
             if (subs.empty() || (subs[0] == '0' && subs.length() > 1)) continue;
-            long long subint = 0;
+            int subint = 0;
             try {
-                subint = stoll(subs);
+                subint = stoi(subs);
             } catch (...) {
                 continue;
             }

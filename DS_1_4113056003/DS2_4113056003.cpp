@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 void slove_case(){
     string s;
     cin >> s;
