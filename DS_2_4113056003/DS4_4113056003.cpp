@@ -17,6 +17,4 @@ void solve_case(){
 int main(){
     freopen("testcase4.txt","r",stdin);
     freopen("output4.txt","w",stdout);
-
-
 }
