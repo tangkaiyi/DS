@@ -35,8 +35,8 @@ int gcd(int a,int b){
 void solve_case(){
     int m;
     cin >> m;
-    LinkedList* ll = new(LinkedList);
-    Node* newNode = new(Node);
+    LinkedList* ll = new LinkedList();
+    Node* newNode = new Node();
     cin >> newNode -> num;
     newNode -> order = 1;
     ll -> head = newNode;
@@ -44,7 +44,7 @@ void solve_case(){
     newNode -> prev = newNode;
     Node* temp = ll -> head;
     for(int i=2;i<=m;i++){
-        Node* newNode = new(Node);
+        Node* newNode = new Node();
         cin >> newNode -> num;
         newNode -> order = i;
         linsert(temp,newNode);
