@@ -151,5 +151,5 @@ int main(){
     while(t--){
         solve_case();
     }
-
+    return 0;
 }
