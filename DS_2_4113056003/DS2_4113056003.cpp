@@ -13,15 +13,15 @@ struct LinkedList{
 };
 
 void linsert(Node* node,Node* newnode){
-    newnode -> prev = node;
-    newnode -> next = node -> next;
-    node -> next -> prev = newnode;
-    node -> next = newnode;
+    newnode->prev = node;
+    newnode->next = node->next;
+    node->next->prev = newnode;
+    node->next = newnode;
 }
 
 void ldelete(Node* node,Node* deleted){
-    deleted -> prev -> next = deleted -> next;
-    deleted -> next -> prev = deleted -> prev;
+    deleted->prev->next = deleted->next;
+    deleted->next->prev = deleted->prev;
     delete(deleted);
 }
 
@@ -37,34 +37,34 @@ void solve_case(){
     cin >> m;
     LinkedList* ll = new LinkedList();
     Node* newNode = new Node();
-    cin >> newNode -> num;
-    newNode -> order = 1;
-    ll -> head = newNode;
-    newNode -> next = newNode;
-    newNode -> prev = newNode;
-    Node* temp = ll -> head;
+    cin >> newNode->num;
+    newNode->order = 1;
+    ll->head = newNode;
+    newNode->next = newNode;
+    newNode->prev = newNode;
+    Node* temp = ll->head;
     for(int i=2;i<=m;i++){
         Node* newNode = new Node();
-        cin >> newNode -> num;
-        newNode -> order = i;
+        cin >> newNode->num;
+        newNode->order = i;
         linsert(temp,newNode);
         temp = newNode;
     }
     vector<int> del;
     int time = 0;
-    ll -> head = ll -> head -> next;
+    ll->head = ll->head->next;
     while(time != m){
-        if(gcd(ll -> head -> num,ll -> head -> prev -> num) == 1){
-            temp = ll -> head -> next;
-            del.push_back(ll -> head -> order);
-            ldelete(ll -> head -> prev,ll -> head);
+        if(gcd(ll->head->num,ll->head->prev->num) == 1){
+            temp = ll->head->next;
+            del.push_back(ll->head->order);
+            ldelete(ll->head->prev,ll->head);
             time = 0;
             m--;
-            ll -> head = temp;
-            ll -> head = ll -> head -> next;
+            ll->head = temp;
+            ll->head = ll->head->next;
         }
         else{
-            ll -> head = ll -> head -> next;
+            ll->head = ll->head->next;
             time++;
         }
     }

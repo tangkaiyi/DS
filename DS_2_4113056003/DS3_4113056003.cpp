@@ -13,7 +13,7 @@ typedef struct Queue{
 }Queue;
 
 void initQueue(Queue* q){
-    q -> front = q -> rear = NULL;
+    q->front = q->rear = NULL;
 }
 
 void enqueue(Queue *q, int v) {
@@ -45,13 +45,13 @@ bool isQueueEmpty(Queue *q) {
 
 void addEdge(Node** adj,int data1,int data2){
     Node* newNode = new Node();
-    newNode -> data = data1;
-    newNode -> next = adj[data2];
+    newNode->data = data1;
+    newNode->next = adj[data2];
     adj[data2] = newNode;
 
     newNode = new Node();
-    newNode -> data = data2;
-    newNode -> next = adj[data1];
+    newNode->data = data2;
+    newNode->next = adj[data1];
     adj[data1] = newNode;
 
 }
@@ -69,12 +69,12 @@ int bfs(int startnode,int n,Node** adj,vector<int> hubs){
 
         Node* ptr = adj[x];
         while(ptr != NULL){
-            int y = ptr -> data;
+            int y = ptr->data;
             if(dist[y] == -1){
                 dist[y] = dist[x] + 1;
                 enqueue(q,y);
             }
-            ptr = ptr -> next;
+            ptr = ptr->next;
         }
     }
 
