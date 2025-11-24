@@ -43,7 +43,7 @@ void cleanStack(Stack *s) {
     }
 }
 
-void solve() {
+void solve(bool last=false) {
     int N;
     if (!(cin >> N)) return;
     
@@ -74,8 +74,10 @@ void solve() {
         }
     }
 
-    if (possible) cout << "Yes" << endl;
-    else cout << "No" << endl;
+    if (possible) cout << "Yes";
+    else cout << "No";
+
+    if (!last) cout << '\n';
     
     cleanStack(&s);
 }
@@ -88,8 +90,8 @@ int main() {
     cin.tie(NULL);
     int T;
     if (cin >> T) {
-        while(T--) {
-            solve();
+        for (int tc = 0; tc < T; ++tc) {
+            solve(tc == T - 1);
         }
     }
     return 0;

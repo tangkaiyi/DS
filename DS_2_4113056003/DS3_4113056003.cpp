@@ -86,7 +86,7 @@ int bfs(int startnode,int n,Node** adj,vector<int> hubs){
     return total_dist;
 }
 
-void solve_case(){
+void solve_case(bool last=false){
     int n,s;
     cin >> n >> s;
     Node** adj = new Node*[n + 1];
@@ -126,7 +126,8 @@ void solve_case(){
             if(h < best_hub) best_hub = h;
         }
     }
-    cout << best_hub << endl;
+    cout << best_hub;
+    if (!last) cout << '\n';
 
     for(int i=0; i<=n; i++) {
         Node *curr = adj[i];
@@ -148,8 +149,8 @@ int main(){
 
     int t;
     cin >> t;
-    while(t--){
-        solve_case();
+    for (int tc = 0; tc < t; ++tc) {
+        solve_case(tc == t - 1);
     }
     return 0;
 }
