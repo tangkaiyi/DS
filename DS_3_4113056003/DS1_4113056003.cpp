@@ -29,8 +29,14 @@ void solve(int inStart, int inEnd, int postStart, int postEnd, bool &isFirst) {
 }
 
 int main() {
-    freopen("testcase1.txt","r",stdin);
-    freopen("output1.txt","w",stdout);
+    if (freopen("testcase1.txt", "r", stdin) == NULL) {
+       fprintf(stderr, "Error: Input file not found\n");
+    return 1;
+    }
+    if (freopen("output1.txt", "w", stdout) == NULL) {
+        fprintf(stderr, "Error: Unable to create output file\n");
+        return 1;
+    }
 
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);

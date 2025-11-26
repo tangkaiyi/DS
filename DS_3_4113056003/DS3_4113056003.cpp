@@ -90,8 +90,14 @@ void dfs(int u) {
 int inorder[MAXN], preorder[MAXN];
 
 int main() {
-    freopen("testcase3.txt","r",stdin);
-    freopen("output3.txt","w",stdout);
+    if (freopen("testcase3.txt", "r", stdin) == NULL) {
+       fprintf(stderr, "Error: Input file not found\n");
+    return 1;
+    }
+    if (freopen("output3.txt", "w", stdout) == NULL) {
+        fprintf(stderr, "Error: Unable to create output file\n");
+        return 1;
+    }
     
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
