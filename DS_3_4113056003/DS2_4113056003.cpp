@@ -1,107 +1,97 @@
 #include <iostream>
 #include <vector>
-#include <string>
-#include <sstream>
 #include <queue>
-#include <algorithm>
 
 using namespace std;
 
-struct TreeNode {
+vector<char> nodes;
+int stations;
+
+struct TreeNode{
     int val;
-    TreeNode *left;
-    TreeNode *right;
+    TreeNode* left;
+    TreeNode* right;
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
-int stations = 0;
+int dfs(TreeNode* node){
+    if(!node) return 0;
 
-int dfs(TreeNode* node) {
-    if (!node) return 0;
+    int leftstate = dfs(node->left);
+    int rightstate = dfs(node->right);
 
-    int leftState = dfs(node->left);
-    int rightState = dfs(node->right);
-
-    if (leftState == 2 || rightState == 2) {
+    if(leftstate == 2 || rightstate == 2){
         stations++;
         return 1;
     }
-    if (leftState == 1 || rightState == 1) {
+
+    if(leftstate == 1 || rightstate == 1){
         return 0;
     }
 
     return 2;
 }
 
-TreeNode* buildTree(const string& data) {
-    if (data.empty()) return nullptr;
-    
-    stringstream ss(data);
-    string segment;
-    vector<string> nodes;
-    while (getline(ss, segment, ',')) {
-        nodes.push_back(segment);
-    }
-
-    if (nodes.empty() || nodes[0] == "N") return nullptr;
+TreeNode* buildTree(){
+    if(nodes.empty() || nodes[0] == 'N') return nullptr;
 
     TreeNode* root = new TreeNode(0);
     queue<TreeNode*> q;
     q.push(root);
 
-    int i = 1;
-    while (!q.empty() && i < nodes.size()) {
-        TreeNode* curr = q.front();
+    int i=1;
+    while(!q.empty() && i<nodes.size()){
+        TreeNode* current = q.front();
         q.pop();
 
-        if (i < nodes.size() && nodes[i] != "N") {
-            curr->left = new TreeNode(0);
-            q.push(curr->left);
+        if(i<nodes.size() && nodes[i] != 'N'){
+            current->left = new TreeNode(0);
+            q.push(current->left);
         }
         i++;
 
-        if (i < nodes.size() && nodes[i] != "N") {
-            curr->right = new TreeNode(0);
-            q.push(curr->right);
+        if(i<nodes.size() && nodes[i] != 'N'){
+            current->right = new TreeNode(0);
+            q.push(current->right);
         }
         i++;
     }
     return root;
+
 }
 
-int main() {
-    if (freopen("testcase2.txt", "r", stdin) == NULL) {
-       fprintf(stderr, "Error: Input file not found\n");
-    return 1;
+void solve_case(){
+    string s;
+    cin >> s;
+    nodes.clear();
+    stations = 0;    
+    for(char c:s){
+        if(c == 'N' || c == '0'){
+            nodes.push_back(c);
+        }
     }
-    if (freopen("output2.txt", "w", stdout) == NULL) {
-        fprintf(stderr, "Error: Unable to create output file\n");
-        return 1;
+    TreeNode* root = buildTree();
+    if(root){
+        int rootstate = dfs(root);
+        if(rootstate == 2) stations++;    
     }
+
+    cout << stations << "\n";
+
+
+}
+
+int main(){
+    if(!freopen("testcase2.txt","r",stdin)) return -1;
+    if(!freopen("output2.txt","w",stdout)) return -1;
 
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
     int t;
-    if (cin >> t) {
-        string dummy;
-        getline(cin, dummy);
-        while (t--) {
-            string line;
-            getline(cin, line);
-
-            stations = 0;
-            TreeNode* root = buildTree(line);
-            
-            if (root) {
-                int rootState = dfs(root);
-                if (rootState == 2) {
-                    stations++;
-                }
-            }
-            
-            cout << stations << "\n";
-        }
+    cin >> t;
+    while(t--){
+        solve_case();
     }
     return 0;
 }

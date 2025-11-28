@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const int MAXN = 500005;
+const int MAXN = 500001;
 
 struct Node {
     int val;
@@ -72,14 +72,8 @@ int countSize(Node* u) {
 }
 
 int main() {
-    if (freopen("testcase4.txt", "r", stdin) == NULL) {
-       fprintf(stderr, "Error: Input file not found\n");
-    return 1;
-    }
-    if (freopen("output4.txt", "w", stdout) == NULL) {
-        fprintf(stderr, "Error: Unable to create output file\n");
-        return 1;
-    }
+    if(!freopen("testcase4.txt","r",stdin)) return -1;
+    if(!freopen("output4.txt","w",stdout)) return -1;
     
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);

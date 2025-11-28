@@ -1,65 +1,54 @@
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
-const int MAX_VAL = 600005;
-const int MAX_N = 500005;
+int inorder[500001];
+int postorder[500001];
+int inorder_pos[600001];
 
-int inorder[MAX_N];
-int postorder[MAX_N];
-int posMap[MAX_VAL];
+void preorder_print(int inStart,int inEnd,int postStart,int postEnd){
+    if(inStart>inEnd || postStart>postEnd) return;
+    
+    int root = postorder[postEnd];
+    cout << root << " ";
 
-void solve(int inStart, int inEnd, int postStart, int postEnd, bool &isFirst) {
-    if (inStart > inEnd || postStart > postEnd) {
-        return;
-    }
+    int inIndex = inorder_pos[root];
+    int leftsize = inIndex - inStart;
 
-    int rootVal = postorder[postEnd];
-
-    if (!isFirst) {
-        cout << " ";
-    }
-    cout << rootVal;
-    isFirst = false;
-    int inIndex = posMap[rootVal];
-    int leftSize = inIndex - inStart;
-    solve(inStart, inIndex - 1, postStart, postStart + leftSize - 1, isFirst);
-    solve(inIndex + 1, inEnd, postStart + leftSize, postEnd - 1, isFirst);
+    preorder_print(inStart,inIndex-1,postStart,postStart+leftsize-1);
+    preorder_print(inIndex+1,inEnd,postStart+leftsize,postEnd-1);
 }
 
-int main() {
-    if (freopen("testcase1.txt", "r", stdin) == NULL) {
-       fprintf(stderr, "Error: Input file not found\n");
-    return 1;
+void solve_case(){
+    int n;
+    cin >> n;
+    for(int i=0;i<n;i++){
+        int temp;
+        cin >> temp;
+        inorder[i] = temp;
+        inorder_pos[inorder[i]] = i;
     }
-    if (freopen("output1.txt", "w", stdout) == NULL) {
-        fprintf(stderr, "Error: Unable to create output file\n");
-        return 1;
+    for(int i=0;i<n;i++){
+        int temp;
+        cin >> temp;
+        postorder[i] = temp;
     }
+
+    preorder_print(0,n-1,0,n-1);
+    cout << "\n";
+}
+
+int main(){
+    if(!freopen("testcase1.txt","r",stdin)) return -1;
+    if(!freopen("output1.txt","w",stdout)) return -1;
 
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
     int t;
-    if (cin >> t) {
-        while (t--) {
-            int n;
-            cin >> n;
-
-            for (int i = 0; i < n; i++) {
-                cin >> inorder[i];
-                posMap[inorder[i]] = i;
-            }
-
-            for (int i = 0; i < n; i++) {
-                cin >> postorder[i];
-            }
-            bool isFirst = true;
-            solve(0, n - 1, 0, n - 1, isFirst);
-            cout << "\n";
-        }
+    cin >> t;
+    while(t--){
+        solve_case();
     }
-
     return 0;
 }
