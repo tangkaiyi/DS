@@ -30,8 +30,8 @@ void slove_case(){
 }
 
 int main(){
-    freopen("testcase3.txt", "r", stdin);
-    freopen("output3.txt", "w", stdout);
+    if(freopen("testcase3.txt", "r", stdin)==NULL) return -1;
+    if(freopen("output3.txt", "w", stdout)==NULL) return -1;
     int t;
     cin >> t;
     while(t--){
