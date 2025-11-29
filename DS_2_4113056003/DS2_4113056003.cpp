@@ -78,8 +78,8 @@ void solve_case(){
 }
 
 int main(){
-    freopen("testcase2.txt", "r", stdin);
-    freopen("output2.txt", "w", stdout);
+    if(!freopen("testcase2.txt","r",stdin)) return -1;
+    if(!freopen("output2.txt","w",stdout)) return -1;
     
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);

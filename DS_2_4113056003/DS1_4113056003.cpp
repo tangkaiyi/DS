@@ -83,8 +83,8 @@ void solve(bool last=false) {
 }
 
 int main() {
-    freopen("testcase1.txt", "r", stdin);
-    freopen("output1.txt", "w", stdout);
+    if(!freopen("testcase1.txt","r",stdin)) return -1;
+    if(!freopen("output1.txt","w",stdout)) return -1;
 
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
