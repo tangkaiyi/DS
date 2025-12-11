@@ -141,8 +141,8 @@ void solve() {
 }
 
 int main() {
-    freopen("testcase4.txt","r",stdin);
-    freopen("output4.txt","w",stdout);
+    if(!freopen("testcase4.txt","r",stdin)) return -1;
+    if(!freopen("output4.txt","w",stdout)) return -1;
 
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
