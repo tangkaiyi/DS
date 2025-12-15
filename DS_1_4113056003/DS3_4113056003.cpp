@@ -23,7 +23,7 @@ void slove_case(){
                 continue;
             }
             if (subint > MAX_INT) continue;
-            dp[i + 1] = max(dp[i + 1], dp[j] + subint);
+            dp[i + 1] = max(dp[i + 1], dp[j] + subint); //當前值與到j最大值(dp[j])加上新切割比大小
         }
     }
     cout << dp[len] << endl;
