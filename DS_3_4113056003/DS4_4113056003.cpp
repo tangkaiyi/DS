@@ -1,10 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <algorithm>
 
 using namespace std;
 
-const int MAXN = 500001;
+const int MAXN = 500005;
 
 struct TreeNode {
     int val;
@@ -102,7 +103,7 @@ void solve_case() {
             canWin = true;
         }
     }
-    
+
     cout << (canWin ? "1" : "0") << "\n";
 }
 
