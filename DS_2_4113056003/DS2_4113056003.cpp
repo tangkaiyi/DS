@@ -69,10 +69,9 @@ void solve_case(){
         }
     }
     cout << del.size() << " ";
-    for(int i=0;i<del.size()-1;i++){
+    for(int i=0;i<del.size();i++){
         cout << del[i] <<" ";
     }
-    cout << del[del.size()-1];
     cout << endl;
 
 }

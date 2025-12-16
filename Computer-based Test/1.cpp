@@ -12,87 +12,85 @@ typedef struct {
     Node *top;
 } Stack;
 
-void push(Stack *s, int val) {
+void push(Stack *st,int val){
     Node *newNode = new Node();
     newNode->data = val;
-    newNode->next = s->top;
-    s->top = newNode;
+    newNode->next = st->top;
+    st->top = newNode;
 }
 
-int pop(Stack *s) {
-    if (s->top == NULL) return -1;
-    Node *temp = s->top;
-    int val = temp->data;
-    s->top = s->top->next;
+int pop(Stack *st){
+    if(st->top == NULL) return -1;
+    Node *temp = st->top;
+    st->top = st->top->next;
     delete temp;
-    return val;
+    return temp->data;
 }
 
-int peek(Stack *s) {
-    if (s->top == NULL) return -1;
-    return s->top->data;
+int top(Stack *st){
+    if(st->top == NULL) return -1;
+    return st->top->data;
 }
 
-bool isEmpty(Stack *s) {
-    return s->top == NULL;
+bool isEmpty(Stack *st){
+    return st->top == NULL;
 }
 
-void cleanStack(Stack *s) {
-    while (!isEmpty(s)) {
-        pop(s);
+void clear(Stack *st){
+    while(!isEmpty(st)){
+        pop(st);
     }
 }
 
-void solve(bool last=false) {
-    int N;
-    if (!(cin >> N)) return;
-    
-    vector<int> target(N);
-    for (int i = 0; i < N; i++) {
-        cin >> target[i];
+void solve_case(){
+    int n;
+    cin >> n;
+    vector<int> targets(n);
+    for(int i=0;i<n;i++){
+        cin >> targets[i];
     }
-
-    Stack s;
-    s.top = NULL;
-    
-    int current_input = 1;
-    int target_idx = 0;
+    int current = 1;
     bool possible = true;
 
-    while (target_idx < N) {
-        int needed = target[target_idx];
-        
-        if (!isEmpty(&s) && peek(&s) == needed) {
-            pop(&s);
-            target_idx++;
-        } else if (current_input <= N) {
-            push(&s, current_input);
-            current_input++;
-        } else {
+    Stack *st = new Stack();
+    st->top = NULL;
+
+    for(int target:targets){
+        while(isEmpty(st) || top(st) != target){
+            if(current>n){
+                possible = false;
+                break;
+            }
+            push(st,current);
+            current++;
+        }
+        if(!isEmpty(st) && top(st) == target){
+            pop(st);
+        }
+        else{
             possible = false;
             break;
         }
     }
 
-    if (possible) cout << "Yes";
-    else cout << "No";
+    if(possible) cout << "Yes\n";
+    else cout << "No\n";
 
-    if (!last) cout << '\n';
-    
-    cleanStack(&s);
+    clear(st);
+    delete st;
 }
 
-int main() {
-    if(!freopen("testcase1.txt","r",stdin)) return -1;
-    if(!freopen("output1.txt","w",stdout)) return -1;
+int main(){
+    freopen("testcase1.txt","r",stdin);
+    freopen("output1.txt","w",stdout);
 
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int T;
-    if (cin >> T) {
-        for (int tc = 0; tc < T; ++tc) {
-            solve(tc == T - 1);
-        }
+
+    int t;
+    cin >> t;
+    while(t--){
+        solve_case();
     }
     return 0;
-}
+}   
