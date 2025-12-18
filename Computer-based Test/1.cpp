@@ -8,23 +8,22 @@ typedef struct Node {
     struct Node *next;
 } Node;
 
-typedef struct {
+typedef struct{
     Node *top;
-} Stack;
+}Stack;
 
-void push(Stack *st,int val){
+void push(Stack *st,int x){
     Node *newNode = new Node();
-    newNode->data = val;
+    newNode->data = x;
     newNode->next = st->top;
     st->top = newNode;
 }
 
-int pop(Stack *st){
-    if(st->top == NULL) return -1;
+void pop(Stack *st){
+    if(st->top == NULL) return;
     Node *temp = st->top;
     st->top = st->top->next;
     delete temp;
-    return temp->data;
 }
 
 int top(Stack *st){
@@ -32,14 +31,14 @@ int top(Stack *st){
     return st->top->data;
 }
 
-bool isEmpty(Stack *st){
-    return st->top == NULL;
-}
-
 void clear(Stack *st){
-    while(!isEmpty(st)){
+    while(st->top != NULL){
         pop(st);
     }
+}
+
+bool empty(Stack *st){
+    return st->top == NULL;
 }
 
 void solve_case(){
@@ -49,22 +48,21 @@ void solve_case(){
     for(int i=0;i<n;i++){
         cin >> targets[i];
     }
-    int current = 1;
-    bool possible = true;
 
     Stack *st = new Stack();
     st->top = NULL;
-
+    int current = 1;
+    bool possible = true;
     for(int target:targets){
-        while(isEmpty(st) || top(st) != target){
-            if(current>n){
+        while(empty(st) || top(st) != target){
+            if(current > n){
                 possible = false;
                 break;
             }
             push(st,current);
             current++;
         }
-        if(!isEmpty(st) && top(st) == target){
+        if(!empty(st) && top(st) == target){
             pop(st);
         }
         else{
@@ -72,11 +70,9 @@ void solve_case(){
             break;
         }
     }
-
     if(possible) cout << "Yes\n";
     else cout << "No\n";
 
-    clear(st);
     delete st;
 }
 
@@ -93,4 +89,4 @@ int main(){
         solve_case();
     }
     return 0;
-}   
+}
