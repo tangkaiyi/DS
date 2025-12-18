@@ -4,86 +4,78 @@
 
 using namespace std;
 
-vector<char> nodes;
+vector<char> node;
 int stations;
 
 struct TreeNode{
-    int val;
-    TreeNode* left;
-    TreeNode* right;
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+    int data;
+    TreeNode *left,*right;
+    TreeNode(int x): data(x),left(NULL),right(NULL){};
 };
 
-int dfs(TreeNode* node){
-    if(!node) return 0;
+int dfs(TreeNode *node){
+    if(node == NULL) return 0;
 
     int leftstate = dfs(node->left);
     int rightstate = dfs(node->right);
-
     if(leftstate == 2 || rightstate == 2){
         stations++;
         return 1;
     }
-
     if(leftstate == 1 || rightstate == 1){
         return 0;
     }
-
     return 2;
 }
 
 TreeNode* buildTree(){
-    if(nodes.empty() || nodes[0] == 'N') return nullptr;
+    if(node.empty() || node[0] == 'N') return nullptr;
 
-    TreeNode* root = new TreeNode(0);
+    TreeNode *root = new TreeNode(0);
     queue<TreeNode*> q;
     q.push(root);
 
     int i=1;
-    while(!q.empty() && i<nodes.size()){
-        TreeNode* current = q.front();
+    while(!q.empty() && i<node.size()){
+        TreeNode *current = q.front();
         q.pop();
 
-        if(i<nodes.size() && nodes[i] != 'N'){
+        if(i<node.size() && node[i] != 'N'){
             current->left = new TreeNode(0);
             q.push(current->left);
         }
         i++;
-
-        if(i<nodes.size() && nodes[i] != 'N'){
+        if(i<node.size() && node[i] != 'N'){
             current->right = new TreeNode(0);
             q.push(current->right);
         }
         i++;
     }
-    return root;
 
+    return root;
 }
 
 void solve_case(){
+    node.clear();
     string s;
     cin >> s;
-    nodes.clear();
-    stations = 0;    
+    stations = 0;
     for(char c:s){
-        if(c == 'N' || c == '0'){
-            nodes.push_back(c);
+        if(c == '0' || c == 'N'){
+            node.push_back(c);
         }
     }
-    TreeNode* root = buildTree();
+    TreeNode *root = buildTree();
     if(root){
         int rootstate = dfs(root);
-        if(rootstate == 2) stations++;    
+        if(rootstate == 2) stations++;
     }
-
-    cout << stations << "\n";
-
-
+    cout << stations << endl;
 }
 
 int main(){
-    if(!freopen("testcase8.txt","r",stdin)) return -1;
-    if(!freopen("output8.txt","w",stdout)) return -1;
+    freopen("testcase8.txt","r",stdin);
+    freopen("output8.txt","w",stdout);
 
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
