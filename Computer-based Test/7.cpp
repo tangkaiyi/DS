@@ -2,20 +2,20 @@
 
 using namespace std;
 
-int inorder[500005];
-int postorder[500005];
-int inorder_pos[600005];
+int inorder[500001];
+int postorder[500001];
+int inorder_pos[600001];
 
-void preorder(int inStart,int inEnd,int postStart,int postEnd){
+void preorder_print(int inStart,int inEnd,int postStart,int postEnd){
     if(inStart>inEnd || postStart>postEnd) return;
-
+    
     int root = postorder[postEnd];
-    int inIndex = inorder_pos[root];
-    int leftsize = inIndex - inStart;
     cout << root << " ";
+    int inIndex = inorder_pos[root];
+    int leftsize = inIndex-inStart;
 
-    preorder(inStart,inIndex-1,postStart,postStart+leftsize-1);
-    preorder(inIndex+1,inEnd,postStart+leftsize,postEnd-1);
+    preorder_print(inStart,inIndex-1,postStart,postStart+leftsize-1);
+    preorder_print(inIndex+1,inEnd,postStart+leftsize,postEnd-1);
 }
 
 void solve_case(){
@@ -28,7 +28,7 @@ void solve_case(){
     for(int i=0;i<n;i++){
         cin >> postorder[i];
     }
-    preorder(0,n-1,0,n-1);
+    preorder_print(0,n-1,0,n-1);
     cout << endl;
 }
 
