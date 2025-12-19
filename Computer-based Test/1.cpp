@@ -3,10 +3,10 @@
 
 using namespace std;
 
-typedef struct Node {
+typedef struct Node{
     int data;
     struct Node *next;
-} Node;
+}Node;
 
 typedef struct{
     Node *top;
@@ -20,25 +20,23 @@ void push(Stack *st,int x){
 }
 
 void pop(Stack *st){
-    if(st->top == NULL) return;
     Node *temp = st->top;
-    st->top = st->top->next;
+    st->top = temp->next;
     delete temp;
 }
 
 int top(Stack *st){
-    if(st->top == NULL) return -1;
     return st->top->data;
 }
 
-void clear(Stack *st){
-    while(st->top != NULL){
-        pop(st);
-    }
+bool isEmpty(Stack *st){
+    return st->top == NULL;
 }
 
-bool empty(Stack *st){
-    return st->top == NULL;
+void clear(Stack *st){
+    while(st->top){
+        pop(st);
+    }
 }
 
 void solve_case(){
@@ -51,18 +49,18 @@ void solve_case(){
 
     Stack *st = new Stack();
     st->top = NULL;
-    int current = 1;
+    int curr = 1;
     bool possible = true;
     for(int target:targets){
-        while(empty(st) || top(st) != target){
-            if(current > n){
+        while(isEmpty(st) || top(st) != target){
+            if(curr>n){
                 possible = false;
                 break;
             }
-            push(st,current);
-            current++;
+            push(st,curr);
+            curr++;
         }
-        if(!empty(st) && top(st) == target){
+        if(!isEmpty(st) && top(st) == target){
             pop(st);
         }
         else{
@@ -72,7 +70,7 @@ void solve_case(){
     }
     if(possible) cout << "Yes\n";
     else cout << "No\n";
-
+    clear(st);
     delete st;
 }
 

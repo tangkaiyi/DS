@@ -13,16 +13,14 @@ void solve_case(){
         for(int j=0;j<=i;j++){
             string subs = s.substr(j,i-j+1);
             int subint = 0;
-            if(!subs.empty() || subs[0] == '0' && subs.length() != 1){
+            if(!subs.empty() && !(subs[0] == '0' && subs.length() != 1)){
                 try{
                     subint = stoi(subs);
                 }
                 catch(...){
-
                 }
             }
             dp[i+1] = max(dp[i+1],dp[j]+subint);
-
         }
     }
     cout << dp[len] << endl;
@@ -36,9 +34,9 @@ int main(){
     cin.tie(NULL);
 
     int t;
-    cin>> t;
+    cin >> t;
     while(t--){
-        solve_case();    
+        solve_case();
     }
     return 0;
 }

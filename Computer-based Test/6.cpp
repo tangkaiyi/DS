@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 
 using namespace std;
 
@@ -13,34 +12,33 @@ typedef struct Queue{
     Node *front,*rear;
 }Queue;
 
-void push(Queue *q,int x){
-    Node *newNode = new Node();
-    newNode->data = x;
+void enqueue(Queue *q,int x){
+    Node *node = new Node();
+    node->data=x;
     if(q->front == NULL){
-        newNode->next = newNode->prev = NULL;
-        q->front = newNode;
-        q->rear = newNode;
+        q->front=q->rear = node;
+        node->next = NULL;
     }
     else{
-        newNode->prev = NULL;
-        newNode->next = q->rear;
-        q->rear->prev = newNode;
-        q->rear = newNode;
-    } 
+        q->rear->next=node;
+        q->rear = node;
+        node->next = NULL;
+    }
 }
-int pop(Queue *q){
+
+int dequeue(Queue *q){
     Node *temp = q->front;
-    q->front = q->front->prev;
-    int x = temp->data;
+    q->front=q->front->next;
+    int val = temp->data;
     delete temp;
-    return x;
+    return val;
 }
 
 bool isEmpty(Queue *q){
     return q->front == NULL;
 }
 
-void addEdge(Node** adj,int data1,int data2){
+void addEdge(Node **adj,int data1,int data2){
     Node *newNode = new Node();
     newNode->data = data1;
     newNode->next = adj[data2];
@@ -52,37 +50,41 @@ void addEdge(Node** adj,int data1,int data2){
     adj[data1] = newNode;
 }
 
-int bfs(Node** adj,int n,int startnode,vector<int> hubs){
+int bfs(Node **adj,int n,int startnode,vector<int> hubs){
     vector<int>dist(n+1,-1);
-    dist[startnode] = 0;
     Queue *q = new Queue();
-    push(q,startnode);
+    q->front = NULL;
+    enqueue(q,startnode);
+    dist[startnode] = 0;
 
     while(!isEmpty(q)){
-        int x = pop(q);
-        Node *temp = adj[x];
-        while(temp != NULL){
-            int y = temp->data;
+        int x=dequeue(q);
+        Node *ptr = adj[x];
+        while(ptr){
+            int y = ptr->data;
             if(dist[y] == -1){
-                push(q,y);
+                enqueue(q,y);
                 dist[y] = dist[x]+1;
             }
-            temp = temp->next;
+            ptr=ptr->next;
         }
     }
-    int total_dist = 0;
+    int total = 0;
     for(int hub:hubs){
-        if(dist[hub] != -1) total_dist+=dist[hub];
-    }
-    return total_dist;
+        if(dist[hub] != -1) total+=dist[hub];
+    };
+    return total;
 }
 
 void solve_case(){
     int n,s;
     cin >> n >> s;
     Node** adj = new Node*[n+1];
-    for(int i=0;i<=n;i++) adj[i] = NULL;
+    for(int i=0;i<=n;i++){
+        adj[i] = NULL;
+    }
     vector<int> count(n+1,0);
+    vector<int>hubs;
     for(int i=0;i<s;i++){
         int data,prev;
         bool first = true;
@@ -91,45 +93,42 @@ void solve_case(){
             if(!first){
                 addEdge(adj,data,prev);
             }
-            first = false;
             prev = data;
+            first = false;
         }
     }
-    vector<int>hubs;
-    for(int i=1;i<=n;i++){
+    for(int i=0;i<=n;i++){
         if(count[i]>1) hubs.push_back(i);
     }
     int min_dist = -1;
     int best_hub = -1;
-    for(int hub:hubs){
-        int dist = bfs(adj,n,hub,hubs);
+    for(int h:hubs){
+        int dist = bfs(adj,n,h,hubs);
         if(min_dist == -1 || dist < min_dist){
             min_dist = dist;
-            best_hub = hub;
-        } 
-        else if(min_dist == dist){
-            if(hub<best_hub){
-                best_hub = hub;
-            }
+            best_hub = h;
+        }
+        else if(dist == min_dist){
+            if(h<best_hub) best_hub = h;
         }
     }
     cout << best_hub << endl;
-    
-    for(int i=0;i<n+1;i++){
-        Node *current = adj[i];
-        while(current != NULL){
-            Node *temp = current;
-            current = current->next;
+    for(int i=0;i<=n;i++){
+        while(adj[i]){
+            Node *temp = adj[i];
+            adj[i] = adj[i]->next;
             delete temp;
         }
+        delete adj[i];
     }
     delete[] adj;
+
 }
 
 int main(){
     freopen("testcase6.txt","r",stdin);
     freopen("output6.txt","w",stdout);
-
+    
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 

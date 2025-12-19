@@ -1,20 +1,47 @@
 #include <iostream>
-#include <vector>
 #include <queue>
+#include <vector>
 
 using namespace std;
 
-vector<char> node;
+vector<char>nodes;
 int stations;
 
 struct TreeNode{
     int data;
-    TreeNode *left,*right;
-    TreeNode(int x): data(x),left(NULL),right(NULL){};
+    TreeNode *right;
+    TreeNode *left;
+    TreeNode(int x): data(x), left(NULL),right(NULL) {}
 };
 
-int dfs(TreeNode* node){
-    if(node == NULL) return 0;
+TreeNode* buildTree(){
+    if(nodes.empty() || nodes[0] == 'N') return NULL;
+    TreeNode* root = new TreeNode(0);
+    queue<TreeNode*>q;
+    q.push(root);
+
+    int i=1;
+    while(!q.empty() && i<nodes.size()){
+        TreeNode *curr = q.front();
+        q.pop();
+
+        if(i<nodes.size() && nodes[i] != 'N'){
+            curr->left = new TreeNode(0);
+            q.push(curr->left);
+        }
+        i++;
+        if(i<nodes.size() && nodes[i] != 'N'){
+            curr->right = new TreeNode(0);
+            q.push(curr->right);
+        }
+        i++;
+
+    }
+    return root;
+}
+
+int dfs(TreeNode *node){
+    if(!node) return 0;
 
     int leftstate = dfs(node->left);
     int rightstate = dfs(node->right);
@@ -23,7 +50,6 @@ int dfs(TreeNode* node){
         stations++;
         return 1;
     }
-
     if(leftstate == 1 || rightstate == 1){
         return 0;
     }
@@ -31,39 +57,13 @@ int dfs(TreeNode* node){
     return 2;
 }
 
-TreeNode* buildTree(){
-    if(node.empty() || node[0] == 'N') return NULL;
-
-    TreeNode *root = new TreeNode(0);
-    queue<TreeNode*> q;
-    q.push(root);
-
-    int i=1;
-    while(!q.empty()){
-        TreeNode *curr = q.front();
-        q.pop();
-
-        if(i<node.size() && node[i] != 'N'){
-            curr->left = new TreeNode(0);
-            q.push(curr->left);
-        }
-        i++;
-        if(i<node.size() && node[i] != 'N'){
-            curr->right = new TreeNode(0);
-            q.push(curr->right);
-        }
-        i++;
-    }
-    return root;
-}
-
 void solve_case(){
-    node.clear();
+    nodes.clear();
     stations = 0;
     string s;
     cin >> s;
     for(char c:s){
-        if(c =='0' || c == 'N') node.push_back(c);
+        if(c == '0' || c == 'N') nodes.push_back(c);
     }
     TreeNode *root = buildTree();
     int rootstate = dfs(root);

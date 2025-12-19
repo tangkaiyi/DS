@@ -5,16 +5,12 @@ using namespace std;
 
 typedef struct Node{
     int data;
-    Node *next;
+    struct Node *next;
 }Node;
 
 typedef struct{
     Node *top;
 }Stack;
-
-bool isEmpty(Stack *st){
-    return st->top == NULL;
-}
 
 void push(Stack *st,int x){
     Node *newNode = new Node();
@@ -24,23 +20,24 @@ void push(Stack *st,int x){
 }
 
 void pop(Stack *st){
-    if(st->top == NULL) return;
     Node *temp = st->top;
-    st->top = temp->next;
+    st->top = st->top->next;
     delete temp;
 }
 
 int top(Stack *st){
-    if(st->top == NULL) return -1;
     return st->top->data;
 }
 
+bool isEmpty(Stack *st){
+    return st->top == NULL;
+}
+
 void clear(Stack *st){
-    while(st->top != NULL){
+    while(st->top){
         pop(st);
     }
 }
-
 
 void solve_case(){
     int n;
@@ -51,18 +48,18 @@ void solve_case(){
     }
     Stack *st = new Stack();
     st->top = NULL;
-    int current = 1;
+    int curr = 1;
     bool possible = true;
     for(int target:targets){
-        while(isEmpty(st) || target != top(st)){
-            if(current>n){
+        while(isEmpty(st) || top(st) != target){
+            if(curr>n){
                 possible = false;
                 break;
             }
-            push(st,current);
-            current++;
+            push(st,curr);
+            curr++;
         }
-        if(!isEmpty(st) && target == top(st)){
+        if(!isEmpty(st) && top(st) == target){
             pop(st);
         }
         else{
@@ -72,9 +69,6 @@ void solve_case(){
     }
     if(possible) cout << "Yes\n";
     else cout << "No\n";
-
-    clear(st);
-    delete st;
 }
 
 int main(){
